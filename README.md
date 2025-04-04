@@ -1,6 +1,6 @@
 # 📦 User API Test Practice (Pré-Estágio)
 
-Mini aplicação Node.js com foco em **boas práticas de testes**, **validação de usuários** e integração com uma API falsa. Desenvolvido como parte do desafio pré-estágio.
+Mini aplicação Node.js com foco em **boas práticas de testes**, **validação de usuários** e **integração de banco de dados**. Desenvolvido como parte do desafio pré-estágio.
 
 ## 🚀 Funcionalidades
 
