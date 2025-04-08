@@ -1,23 +1,22 @@
-import { Request, Response } from "express";
+import { FastifyReply, FastifyRequest } from "fastify";
 import { CreateUserService } from "../services/create-user-service";
-
+import { z } from "zod";
 class CreateUserController {
-  async handle(req: Request, res: Response): Promise<Response> {
-    const { name, email } = req.body;
-
-    if (!name || !email) {
-      return res.status(400).json({ error: "Dados inválidos" });
-    }
-
+  async handle(req: FastifyRequest, reply: FastifyReply) {
     try {
-      const user = await new CreateUserService().execute({
-        name,
-        email,
+      const bodySchema = z.object({
+        name: z.string(),
+        email: z.string().email(),
       });
-      return res.status(201).json(user);
-    } catch (err) {
-      console.error("Erro ao criar usuário:", err);
-      return res.status(500).json({ error: "Erro ao criar usuário" });
+
+      const { name, email } = bodySchema.parse(req.body);
+
+      const createUserService = new CreateUserService();
+      const user = await createUserService.execute({ name, email });
+
+      return reply.status(201).send(user);
+    } catch (error: any) {
+      return reply.status(500).send({ error: error.message });
     }
   }
 }

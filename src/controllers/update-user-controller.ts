@@ -1,20 +1,31 @@
-import { Request, Response } from "express";
+import { FastifyReply, FastifyRequest } from "fastify";
 import { UpdateUserService } from "../services/update-user-service";
-class UpdateUserController {
-  async handle(req: Request, res: Response) {
-    const { name } = req.body;
+import { z } from "zod";
 
-    const { user_id } = req.params;
+class UpdateUserController {
+  async handle(req: FastifyRequest, reply: FastifyReply) {
+    const bodySchema = z.object({
+      name: z.string(),
+    });
+
+    const { name } = bodySchema.parse(req.body);
+
+    const paramsSchema = z.object({
+      user_id: z.string(),
+    });
+
+    const { user_id } = paramsSchema.parse(req.params);
+
     try {
       const user = await new UpdateUserService().execute({
         user_id,
         name,
       });
 
-      return res.status(200).json(user);
+      return reply.status(200).send(user);
     } catch (error: any) {
       console.error("Erro ao atualizar usuário:", error);
-      return res.status(400).json({ error: error.message });
+      return reply.status(400).send({ error: error.message });
     }
   }
 }
