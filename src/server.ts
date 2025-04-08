@@ -1,5 +1,11 @@
+import {
+  createUserRoute,
+  getUsersRoute,
+  updateUserRoute,
+  deleteUserRoute,
+} from "./routes";
 import dotenv from "dotenv";
-import { env } from "./env";
+import { env } from "./validators/env.schema";
 import fastifyCors from "@fastify/cors";
 import { fastifySwagger } from "@fastify/swagger";
 import { fastifySwaggerUi } from "@fastify/swagger-ui";
@@ -9,9 +15,6 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from "fastify-type-provider-zod";
-import { createUserRoute } from "./routes/create-user";
-import { getUsersRoute } from "./routes/get-users";
-import { updateUserRoute } from "./routes/update-user";
 
 dotenv.config();
 
@@ -41,6 +44,7 @@ app.setSerializerCompiler(serializerCompiler);
 app.register(createUserRoute);
 app.register(getUsersRoute);
 app.register(updateUserRoute);
+app.register(deleteUserRoute);
 
 // Server
 const port = env.PORT || 3333;
