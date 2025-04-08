@@ -1,19 +1,60 @@
-import express from "express";
 import dotenv from "dotenv";
-import { router } from "./routes/routes";
+import { env } from "./env";
+import fastifyCors from "@fastify/cors";
+import { fastifySwagger } from "@fastify/swagger";
+import { fastifySwaggerUi } from "@fastify/swagger-ui";
+import { fastify } from "fastify";
+import {
+  jsonSchemaTransform,
+  serializerCompiler,
+  validatorCompiler,
+} from "fastify-type-provider-zod";
+import { createUserRoute } from "./routes/create-user";
+import { getUsersRoute } from "./routes/get-users";
+import { updateUserRoute } from "./routes/update-user";
 
 dotenv.config();
 
-const app = express();
-app.use(express.json());
-app.use("/api", router);
+const app = fastify();
+app.register(fastifyCors);
+
+app.register(fastifySwagger, {
+  openapi: {
+    info: {
+      title: "User API Test Practice (Pré-Estágio)",
+      description:
+        "Mini aplicação Node.js com foco em boas práticas de testes, validação de usuários e integração com banco de dados.",
+      version: "1.0.0",
+    },
+  },
+  transform: jsonSchemaTransform,
+});
+
+app.register(fastifySwaggerUi, {
+  routePrefix: "/docs",
+});
+
+app.setValidatorCompiler(validatorCompiler);
+app.setSerializerCompiler(serializerCompiler);
+
+// Routes
+app.register(createUserRoute);
+app.register(getUsersRoute);
+app.register(updateUserRoute);
+
+// Server
+const port = env.PORT || 3333;
 
 if (process.env.NODE_ENV !== "test") {
-  app.listen(process.env.PORT || 3333, () =>
-    console.log(
-      `Server: http://localhost:${process.env.PORT || 3333} is running ⚡⚡⚡`
-    )
-  );
+  app
+    .listen({
+      host: "0.0.0.0",
+      port,
+    })
+    .then(() => {
+      console.log(`Server: http://localhost:${port} is running ⚡⚡⚡`);
+      console.log(`Swagger: http://localhost:${port}/docs`);
+    });
 }
 
 export default app;
