@@ -8,6 +8,9 @@ const envSchema = z.object({
   // Database
   DATABASE_URL: z.string(),
 
+  // JWT
+  JWT_SECRET: z.string().default("default_secret"),
+
   // URLs
   API_URL: z.string().url(),
   WEB_URL: z.string().url(),
