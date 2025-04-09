@@ -1,4 +1,5 @@
 import { db } from "../../prisma";
+import { AppError } from "../../shared/errors/app-error";
 
 interface UserRequest {
   user_id: string;
@@ -8,7 +9,7 @@ interface UserRequest {
 class UpdateUserService {
   async execute({ user_id, name }: UserRequest) {
     if (!user_id) {
-      throw new Error("ID do usuário é obrigatório");
+      throw new AppError("ID do usuário é obrigatório", 400);
     }
 
     const userExists = await db.user.findFirst({
@@ -18,11 +19,11 @@ class UpdateUserService {
     });
 
     if (!userExists) {
-      throw new Error("Usuário nao encontrado");
+      throw new AppError("Usuário nao encontrado", 404);
     }
 
     if (!name || name.trim() === "") {
-      throw new Error("Nome é obrigatório");
+      throw new AppError("Nome é obrigatório", 400);
     }
 
     const user = await db.user.update({
