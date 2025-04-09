@@ -1,81 +1,146 @@
-# 📦 User API Test Practice (Pré-Estágio)
+# 💇‍♀️ Agendamento de Serviços - API (Pré-Estágio)
 
-Mini aplicação Node.js com foco em **boas práticas de testes**, **validação de usuários**, **documentação com Swagger** e **integração de banco de dados**. Desenvolvido como parte do desafio pré-estágio.
+Mini aplicação Node.js voltada para **gestão de agendamentos de uma profissional autônoma (ex: manicure)**. Utiliza boas práticas de arquitetura, testes, validações, autenticação e documentação via Swagger. Criado como parte da preparação para estágio.
+
+---
 
 ## 🚀 Funcionalidades
 
-- ✅ Cadastro de usuário (nome e e-mail)
-- ✅ Validação de e-mail e nome com Zod
-- ✅ Verificação de e-mails duplicados (case-insensitive)
-- ✅ Atualização de usuários
-- ✅ Exclusão de usuários
-- ✅ Listagem de todos os usuários
-- ✅ Documentação automática com Swagger
-- ✅ Tratamento global de erros
-- ✅ Arquitetura modular com Design Patterns
-- ✅ Testes automatizados com Jest
-- ✅ Integração com banco de dados via Prisma
+- ✅ Cadastro e autenticação do usuário administrador
+- ✅ Criação de categorias de serviço (ex: mão, pé, depilação)
+- ✅ Criação de serviços vinculados a categorias (ex: "Mão + Pé")
+- ✅ Agendamento de clientes com nome, data e serviços
+- ✅ Visualização e gerenciamento de todos os agendamentos
+- ✅ Validações com Zod
+- ✅ Swagger para documentação automática
+- ✅ Testes com Jest
+- ✅ Arquitetura desacoplada e escalável
+- ✅ Integração com banco PostgreSQL via Prisma
 
-## 📁 Tecnologias utilizadas
+---
+
+## 🛠️ Tecnologias utilizadas
 
 - Node.js
-- Fastify
 - TypeScript
+- Fastify
 - Prisma ORM
+- PostgreSQL
 - Zod
 - Swagger (Fastify Swagger)
 - Jest
 
-## 🧪 Testes
+---
 
-Utiliza `Jest` para testar os seguintes cenários:
+## 📂 Estrutura do Prisma
 
-- Criar um usuário com sucesso
-- Erro ao tentar criar usuário com e-mail vazio
-- Erro ao tentar criar usuário com e-mail inválido
-- Erro ao tentar criar usuário com e-mail já existente (case-insensitive)
-- Retornar a lista dos usuários cadastrados
-- Atualizar um usuário
-- Excluir um usuário
+```prisma
+model User {
+  id         String    @id @default(uuid())
+  name       String
+  email      String    @unique
+  password   String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+}
 
+model Category {
+  id         String    @id @default(uuid())
+  name       String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+  services   Service[]
+}
 
-## Estrutura das pastas 🗂️ 
+model Service {
+  id          String    @id @default(uuid())
+  name        String
+  description String
+  image       String
+  created_at  DateTime? @default(now())
+  updated_at  DateTime? @default(now())
+  category    Category  @relation(fields: [category_id], references: [id])
+  category_id String
+  items       Item[]
+}
+
+model Appointment {
+  id               String    @id @default(uuid())
+  client_name      String
+  appointment_date DateTime
+  status           Boolean   @default(false)
+  draft            Boolean   @default(true)
+  created_at       DateTime? @default(now())
+  updated_at       DateTime? @default(now())
+  items            Item[]
+}
+
+model Item {
+  id             String       @id @default(uuid())
+  amount         Int
+  created_at     DateTime?    @default(now())
+  updated_at     DateTime?    @default(now())
+  appointment    Appointment? @relation(fields: [appointment_id], references: [id])
+  service        Service      @relation(fields: [service_id], references: [id])
+  appointment_id String?
+  service_id     String
+}
+```
+
+---
+
+## 📁 Estrutura das pastas
 
 ```
 src/
+├─ @types/
+│  └─ fastify/
+│     └─ index.d.ts
 ├─ controllers/
+│  ├─ auth/
+│  │  ├─ auth-user.controller.ts
+│  │  └─ create-user.controller.ts
 │  ├─ user/
-│  │  ├─ create.controller.ts
 │  │  ├─ delete.controller.ts
 │  │  ├─ get-all.controller.ts
+│  │  ├─ get-by-id.controller.ts
 │  │  └─ update.controller.ts
 │  └─ index.ts
 ├─ prisma/
 │  └─ index.ts
 ├─ routes/
+│  ├─ auth/
+│  │  ├─ auth-user.route.ts
+│  │  └─ create-user.route.ts
 │  ├─ user/
-│  │  ├─ create.route.ts
 │  │  ├─ delete.route.ts
 │  │  ├─ get-all.route.ts
+│  │  ├─ get-by-id.route.ts
 │  │  └─ update.route.ts
 │  └─ index.ts
 ├─ services/
+│  ├─ auth/
+│  │  ├─ auth-user.service.ts
+│  │  └─ create-user.service.ts
 │  ├─ user/
-│  │  ├─ create.service.ts
 │  │  ├─ delete.service.ts
 │  │  ├─ get-all.service.ts
+│  │  ├─ get-by-id.service.ts
 │  │  └─ update.service.ts
 │  └─ index.ts
 ├─ shared/
 │  ├─ errors/
 │  │  └─ app-error.ts
 │  └─ middlewares/
+│     ├─ auth-handler.ts
 │     └─ error-handler.ts
 ├─ tests/
 │  ├─ factories/
 │  │  └─ user-factory.ts
 │  └─ user/
 │     ├─ create-user.test.ts
+│     ├─ delete-user.test.ts
+│     ├─ get-user-by-id.test.ts
 │     ├─ get-users.test.ts
 │     └─ update-user.test.ts
 ├─ validators/
@@ -83,63 +148,20 @@ src/
 └─ server.ts
 ```
 
+---
 
-## 🚀 Como usar
+## 🧪 Testes
 
-### 1. Clonar o projeto
-```bash
-git clone https://github.com/MatheusRodriguesdaSilveira/user-api-test-practice-pre-stage.git
-cd user-api-test-practice-pre-stage
-```
+Utiliza `Jest` para garantir:
 
-### 2. Instalar as dependências
-```bash
-npm install
-```
+- Validações corretas de agendamentos
+- Criação e listagem de serviços
+- Autenticação do admin
+- Cobertura dos fluxos principais de uso
 
-### 3. Rodar as migrations do Prisma
-```bash
-npx prisma migrate dev --name init
-```
+---
 
-### 4. Iniciar o servidor
-```bash
-npm run dev
-```
-
-### 5. Executar os testes
-```bash
-npm test
-```
-
-## 📂 Estrutura da Tabela `User`
-
-| Campo   | Tipo     | Descrição                      |
-|---------|----------|-------------------------------|
-| `id`    | `string` | Identificador único (UUID)     |
-| `name`  | `string` | Nome do usuário                |
-| `email` | `string` | E-mail do usuário (único)      |
-
-### Prisma Model:
-```prisma
-model User {
-  id    String @id @default(uuid())
-  name  String
-  email String @unique
-}
-```
-
-## 🧠 Aprendizados
-
-- Validação robusta com Zod
-- Escrita de testes unitários e boas práticas com Jest
-- Estruturação de serviços e controllers de forma desacoplada
-- Integração com banco de dados de forma limpa com Prisma
-- Uso do Fastify para alta performance
-- Documentação automática com Swagger
-- Design escalável baseado em domain-driven design (DDD)
-
-## 📄 Documentação Swagger
+## 📚 Documentação Swagger
 
 Após iniciar o projeto, acesse:
 
@@ -147,18 +169,51 @@ Após iniciar o projeto, acesse:
 http://localhost:3333/docs
 ```
 
-A documentação completa da API estará disponível com todos os endpoints e schemas validados.
+---
+
+## 📜 Como rodar o projeto
+
+```bash
+# Clonar repositório
+git clone https://github.com/MatheusRodriguesdaSilveira/user-api-test-practice-pre-stage.git
+
+# Instalar dependências
+npm install
+
+# Rodar migrations
+npx prisma migrate dev --name init
+
+# Iniciar servidor
+npm run dev
+
+# Rodar testes
+npm test
+```
 
 ---
 
+## 📌 Observações
 
-## 📃 Licença
+- Este projeto simula a rotina de uma profissional de serviços com agendamentos personalizados.
+- Pode ser facilmente adaptado para barbearia, estética, fisioterapia, etc.
 
-Este projeto está sob a licença MIT. <br>
-Copyright (c) 2025 Matheus Rodrigues da Silveira
+---
 
+## 🧠 Aprendizados
+
+- Autenticação com JWT
+- Manipulação de datas e horas
+- Relacionamentos em banco de dados
+- Arquitetura escalável e coesa
+- Escrita de testes reais de aplicação
+- Modelagem voltada a domínio (DDD)
+
+---
+
+## 📄 Licença
+
+MIT © 2025 - Matheus Rodrigues da Silveira
 
 ---
 
 Feito com 💻 por **Matheus Rodrigues**
-
