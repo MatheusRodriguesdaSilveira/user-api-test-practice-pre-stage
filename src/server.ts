@@ -1,11 +1,15 @@
 import {
   createUserRoute,
+  authUserRoute,
   getUsersRoute,
+  getUserByIdRoute,
   updateUserRoute,
   deleteUserRoute,
 } from "./routes";
+
 import dotenv from "dotenv";
 import { env } from "./validators/env.schema";
+
 import fastifyCors from "@fastify/cors";
 import { fastifySwagger } from "@fastify/swagger";
 import { fastifySwaggerUi } from "@fastify/swagger-ui";
@@ -42,7 +46,9 @@ app.setSerializerCompiler(serializerCompiler);
 
 // Routes
 app.register(createUserRoute);
+app.register(authUserRoute);
 app.register(getUsersRoute);
+app.register(getUserByIdRoute);
 app.register(updateUserRoute);
 app.register(deleteUserRoute);
 
