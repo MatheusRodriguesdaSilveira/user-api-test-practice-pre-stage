@@ -41,6 +41,7 @@ Utiliza `Jest` para testar os seguintes cenários:
 
 ## Estrutura das pastas 🗂️ 
 
+```
 src/
 ├─ controllers/
 │  ├─ user/
@@ -80,7 +81,7 @@ src/
 ├─ validators/
 │  └─ env.schema.ts
 └─ server.ts
-
+```
 
 
 ## 🚀 Como usar
