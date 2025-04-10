@@ -5,7 +5,7 @@ import { createUser } from "../factories/user-factory";
 describe("GetUsersService", () => {
   const service = new GetUsersService();
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     await db.user.deleteMany();
   });
 
@@ -27,6 +27,7 @@ describe("GetUsersService", () => {
 
   // Teste para verificar se o serviço retorna uma lista vazia quando não há usuários
   it("deve retornar uma lista vazia se não houver usuários", async () => {
+    await db.user.deleteMany();
     const users = await service.execute();
 
     expect(users.length).toBe(0);
