@@ -5,7 +5,7 @@ import { createUser } from "../factories/user-factory";
 describe("GetUserById", () => {
   const service = new GetUserByIdService();
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     await db.user.deleteMany();
   });
 
