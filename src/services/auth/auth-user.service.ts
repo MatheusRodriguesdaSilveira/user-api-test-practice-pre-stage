@@ -2,6 +2,7 @@ import { compare } from "bcryptjs";
 import { db } from "../../prisma";
 import { sign } from "jsonwebtoken";
 import { env } from "../../validators/env.schema";
+import { AppError } from "../../shared/errors/app-error";
 
 interface AuthRequest {
   email: string;
@@ -17,13 +18,17 @@ class AuthUserService {
     });
 
     if (!user) {
-      throw new Error("User/password/email not found or incorrect");
+      throw new AppError("User/password/email not found or incorrect");
+    }
+
+    if (!email) {
+      throw new AppError("User/password/email not found or incorrect");
     }
 
     const passwordMatch = await compare(password, user.password);
 
     if (!passwordMatch) {
-      throw new Error("User/password/email not found or incorrect");
+      throw new AppError("User/password/email not found or incorrect");
     }
 
     const token = sign(
