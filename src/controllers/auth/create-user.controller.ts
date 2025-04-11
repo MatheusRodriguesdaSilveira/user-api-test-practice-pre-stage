@@ -1,15 +1,11 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { z } from "zod";
 import { CreateUserService } from "../../services";
+import { CreateUserSchema } from "../../shared/schema/user";
 
 class CreateUserController {
   async handle(req: FastifyRequest, reply: FastifyReply) {
     try {
-      const bodySchema = z.object({
-        name: z.string(),
-        email: z.string().email(),
-        password: z.string().min(6),
-      });
+      const bodySchema = CreateUserSchema;
 
       const { name, email, password } = bodySchema.parse(req.body);
 

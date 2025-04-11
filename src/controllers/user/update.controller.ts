@@ -1,18 +1,14 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { z } from "zod";
 import { UpdateUserService } from "../../services";
+import { ParamsSchema, UpdateUserSchema } from "../../shared/schema/user";
 
 class UpdateUserController {
   async handle(req: FastifyRequest, reply: FastifyReply) {
-    const bodySchema = z.object({
-      name: z.string(),
-    });
+    const bodySchema = UpdateUserSchema;
 
     const { name } = bodySchema.parse(req.body);
 
-    const paramsSchema = z.object({
-      user_id: z.string(),
-    });
+    const paramsSchema = ParamsSchema;
 
     const { user_id } = paramsSchema.parse(req.params);
 

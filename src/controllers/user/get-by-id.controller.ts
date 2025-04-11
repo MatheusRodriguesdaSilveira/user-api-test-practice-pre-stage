@@ -1,12 +1,10 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { z } from "zod";
 import { GetUserByIdService } from "../../services/user/get-by-id.service";
+import { ParamsSchema } from "../../shared/schema/user";
 
 class GetUserByIdController {
   async handle(req: FastifyRequest, reply: FastifyReply) {
-    const paramsSchema = z.object({
-      user_id: z.string(),
-    });
+    const paramsSchema = ParamsSchema;
 
     const { user_id } = paramsSchema.parse(req.params);
 

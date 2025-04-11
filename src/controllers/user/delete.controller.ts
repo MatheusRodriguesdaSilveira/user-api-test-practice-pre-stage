@@ -1,12 +1,10 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { z } from "zod";
 import { DeleteUserService } from "../../services";
+import { ParamsSchema } from "../../shared/schema/user";
 
 class DeleteUserController {
   async handle(req: FastifyRequest, reply: FastifyReply) {
-    const paramsSchema = z.object({
-      user_id: z.string(),
-    });
+    const paramsSchema = ParamsSchema;
 
     const { user_id } = paramsSchema.parse(req.params);
 
