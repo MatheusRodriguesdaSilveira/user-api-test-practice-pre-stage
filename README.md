@@ -100,6 +100,9 @@ src/
 │  ├─ auth/
 │  │  ├─ auth-user.controller.ts
 │  │  └─ create-user.controller.ts
+│  ├─ category/
+│  │  ├─ create.controller.ts
+│  │  └─ get-all.controller.ts
 │  ├─ user/
 │  │  ├─ delete.controller.ts
 │  │  ├─ get-all.controller.ts
@@ -112,6 +115,9 @@ src/
 │  ├─ auth/
 │  │  ├─ auth-user.route.ts
 │  │  └─ create-user.route.ts
+│  ├─ category/
+│  │  ├─ create.route.ts
+│  │  └─ get-all.route.ts
 │  ├─ user/
 │  │  ├─ delete.route.ts
 │  │  ├─ get-all.route.ts
@@ -122,6 +128,9 @@ src/
 │  ├─ auth/
 │  │  ├─ auth-user.service.ts
 │  │  └─ create-user.service.ts
+│  ├─ category/
+│  │  ├─ create.service.ts
+│  │  └─ get-all.service.ts
 │  ├─ user/
 │  │  ├─ delete.service.ts
 │  │  ├─ get-all.service.ts
@@ -131,14 +140,27 @@ src/
 ├─ shared/
 │  ├─ errors/
 │  │  └─ app-error.ts
-│  └─ middlewares/
-│     ├─ auth-handler.ts
-│     └─ error-handler.ts
+│  ├─ lib/
+│  │  └─ types/
+│  │     ├─ category-request.ts
+│  │     └─ user-reques.ts
+│  ├─ middlewares/
+│  │  ├─ auth-handler.ts
+│  │  └─ error-handler.ts
+│  └─ schema/
+│     ├─ category.ts
+│     └─ user.ts
 ├─ tests/
+│  ├─ auth/
+│  │  ├─ auth-user.test.ts
+│  │  └─ create-user.test.ts
+│  ├─ category/
+│  │  ├─ create-category.test.ts
+│  │  └─ get-categories.test.ts
 │  ├─ factories/
+│  │  ├─ categories-factory.ts
 │  │  └─ user-factory.ts
 │  └─ user/
-│     ├─ create-user.test.ts
 │     ├─ delete-user.test.ts
 │     ├─ get-user-by-id.test.ts
 │     ├─ get-users.test.ts
@@ -146,6 +168,8 @@ src/
 ├─ validators/
 │  └─ env.schema.ts
 └─ server.ts
+
+
 ```
 
 ---
