@@ -1,6 +1,5 @@
 import { db } from "../../prisma";
 import { CreateUserService } from "../../services";
-import { createUser } from "../factories/user-factory";
 
 describe("CreateUserService", () => {
   const service = new CreateUserService();
