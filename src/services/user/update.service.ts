@@ -1,13 +1,9 @@
 import { db } from "../../prisma";
 import { AppError } from "../../shared/errors/app-error";
-
-interface UserRequest {
-  user_id: string;
-  name: string;
-}
+import { IUpdateUserRequest } from "../../shared/lib/types/user-reques";
 
 class UpdateUserService {
-  async execute({ user_id, name }: UserRequest) {
+  async execute({ user_id, name }: IUpdateUserRequest) {
     if (!user_id) {
       throw new AppError("ID do usuário é obrigatório", 400);
     }

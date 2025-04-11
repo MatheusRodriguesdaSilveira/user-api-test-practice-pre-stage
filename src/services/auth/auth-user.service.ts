@@ -3,14 +3,10 @@ import { db } from "../../prisma";
 import { sign } from "jsonwebtoken";
 import { env } from "../../validators/env.schema";
 import { AppError } from "../../shared/errors/app-error";
-
-interface AuthRequest {
-  email: string;
-  password: string;
-}
+import { IAuthRequest } from "../../shared/lib/types/user-reques";
 
 class AuthUserService {
-  async execute({ email, password }: AuthRequest) {
+  async execute({ email, password }: IAuthRequest) {
     const user = await db.user.findFirst({
       where: {
         email: email,

@@ -1,15 +1,10 @@
 import { db } from "../../prisma";
 import { hash } from "bcryptjs";
 import { AppError } from "../../shared/errors/app-error";
-
-interface UserRequest {
-  name: string;
-  email: string;
-  password: string;
-}
+import { ICreateUserRequest } from "../../shared/lib/types/user-reques";
 
 class CreateUserService {
-  async execute({ name, email, password }: UserRequest) {
+  async execute({ name, email, password }: ICreateUserRequest) {
     if (!email) {
       throw new AppError("Email incorreto", 400);
     }
