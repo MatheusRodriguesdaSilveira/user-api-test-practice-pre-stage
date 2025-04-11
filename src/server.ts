@@ -5,6 +5,8 @@ import {
   getUserByIdRoute,
   updateUserRoute,
   deleteUserRoute,
+  createCategoryRoute,
+  getCategoriesRoute,
 } from "./routes";
 
 import dotenv from "dotenv";
@@ -45,12 +47,19 @@ app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 
 // Routes
+// Auth
 app.register(createUserRoute);
 app.register(authUserRoute);
+
+// Users
 app.register(getUsersRoute);
 app.register(getUserByIdRoute);
 app.register(updateUserRoute);
 app.register(deleteUserRoute);
+
+// Categories
+app.register(createCategoryRoute);
+app.register(getCategoriesRoute);
 
 // Server
 const port = env.PORT || 3333;
