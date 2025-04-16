@@ -1,5 +1,5 @@
-import { GetCategoriesService } from "../../modules/category";
 import { db } from "../../prisma";
+import { GetCategoriesService } from "../../services";
 import { createCategory } from "../factories/categories-factory";
 
 describe("GetCategoriesService", () => {

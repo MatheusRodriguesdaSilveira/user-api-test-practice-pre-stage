@@ -1,5 +1,5 @@
-import { CreateUserService } from "../../modules/users/services";
 import { db } from "../../prisma";
+import { CreateUserService } from "../../services";
 
 describe("CreateUserService", () => {
   const service = new CreateUserService();

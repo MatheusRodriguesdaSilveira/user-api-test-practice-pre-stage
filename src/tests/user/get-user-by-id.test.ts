@@ -1,5 +1,5 @@
-import { GetUserByIdService } from "../../modules/users/services";
 import { db } from "../../prisma";
+import { GetUserByIdService } from "../../services";
 import { createUser } from "../factories/user-factory";
 
 describe("GetUserById", () => {

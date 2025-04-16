@@ -1,5 +1,5 @@
-import { DeleteUserService } from "../../modules/users/services";
 import { db } from "../../prisma";
+import { DeleteUserService } from "../../services";
 import { createUser } from "../factories/user-factory";
 
 describe("DeleteUserService", () => {

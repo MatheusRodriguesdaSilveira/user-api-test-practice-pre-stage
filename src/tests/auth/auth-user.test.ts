@@ -1,5 +1,5 @@
 import { db } from "../../prisma";
-import { AuthUserService } from "../../modules/users/services/auth.service";
+import { AuthUserService } from "../../services/auth/auth-user.service";
 import { createUser } from "../factories/user-factory";
 
 describe("AuthUserTests", () => {
