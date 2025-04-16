@@ -1,5 +1,5 @@
+import { CreateCategoryService } from "../../modules/category";
 import { db } from "../../prisma";
-import { CreateCategoryService } from "../../services";
 
 describe("CreateCategoryService", () => {
   const service = new CreateCategoryService();

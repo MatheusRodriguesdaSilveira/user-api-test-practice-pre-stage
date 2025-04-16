@@ -1,5 +1,5 @@
+import { UpdateUserService } from "../../modules/users/services";
 import { db } from "../../prisma";
-import { UpdateUserService } from "../../services";
 import { createUser } from "../factories/user-factory";
 
 describe("Testes para Atualizar usuário:", () => {
