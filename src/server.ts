@@ -1,13 +1,13 @@
 import {
-  createUserRoute,
   authUserRoute,
-  getUsersRoute,
-  getUserByIdRoute,
-  updateUserRoute,
+  createUserRoute,
   deleteUserRoute,
-  createCategoryRoute,
-  getCategoriesRoute,
-} from "./routes";
+  getUserByIdRoute,
+  getUsersRoute,
+  updateUserRoute,
+} from "./modules/users/routes";
+
+import { createCategoryRoute, getCategoriesRoute } from "./modules/category";
 
 import dotenv from "dotenv";
 import { env } from "./validators/env.schema";
@@ -16,11 +16,13 @@ import fastifyCors from "@fastify/cors";
 import { fastifySwagger } from "@fastify/swagger";
 import { fastifySwaggerUi } from "@fastify/swagger-ui";
 import { fastify } from "fastify";
+
 import {
   jsonSchemaTransform,
   serializerCompiler,
   validatorCompiler,
 } from "fastify-type-provider-zod";
+import { createServiceRoute } from "./modules/service";
 
 dotenv.config();
 
@@ -60,6 +62,9 @@ app.register(deleteUserRoute);
 // Categories
 app.register(createCategoryRoute);
 app.register(getCategoriesRoute);
+
+// Services
+app.register(createServiceRoute);
 
 // Server
 const port = env.PORT || 3333;
