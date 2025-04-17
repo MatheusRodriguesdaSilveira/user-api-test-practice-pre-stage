@@ -1,4 +1,4 @@
-# 💇‍♀️ Agendamento de Serviços - API (Pré-Estágio)
+# 💇‍♀️ Agendamento de Serviços - API (Estudos-Estágio)
 
 Mini aplicação Node.js voltada para **gestão de agendamentos de uma profissional autônoma (ex: manicure)**. Utiliza boas práticas de arquitetura, testes, validações, autenticação e documentação via Swagger. Criado como parte da preparação para estágio.
 
@@ -96,60 +96,78 @@ src/
 ├─ @types/
 │  └─ fastify/
 │     └─ index.d.ts
-├─ controllers/
-│  ├─ auth/
-│  │  ├─ auth-user.controller.ts
-│  │  └─ create-user.controller.ts
+├─ modules/
 │  ├─ category/
-│  │  ├─ create.controller.ts
-│  │  └─ get-all.controller.ts
-│  ├─ user/
-│  │  ├─ delete.controller.ts
-│  │  ├─ get-all.controller.ts
-│  │  ├─ get-by-id.controller.ts
-│  │  └─ update.controller.ts
-│  └─ index.ts
+│  │  ├─ controllers/
+│  │  │  ├─ create.controller.ts
+│  │  │  ├─ get-all.controller.ts
+│  │  │  └─ index.ts
+│  │  ├─ dtos/
+│  │  │  └─ category-request.ts
+│  │  ├─ routes/
+│  │  │  ├─ create.route.ts
+│  │  │  ├─ get-all.route.ts
+│  │  │  └─ index.ts
+│  │  ├─ schema/
+│  │  │  └─ category.ts
+│  │  ├─ services/
+│  │  │  ├─ create.service.ts
+│  │  │  ├─ get-all.service.ts
+│  │  │  └─ index.ts
+│  │  └─ index.ts
+│  ├─ service/
+│  │  ├─ controllers/
+│  │  │  ├─ create.controller.ts
+│  │  │  └─ index.ts
+│  │  ├─ dtos/
+│  │  │  └─ service-request.ts
+│  │  ├─ routes/
+│  │  │  ├─ create.route.ts
+│  │  │  └─ index.ts
+│  │  ├─ schema/
+│  │  │  └─ service.ts
+│  │  ├─ services/
+│  │  │  ├─ create.service.ts
+│  │  │  └─ index.ts
+│  │  └─ index.ts
+│  └─ users/
+│     ├─ controllers/
+│     │  ├─ auth.controller.ts
+│     │  ├─ create.controller.ts
+│     │  ├─ delete.controller.ts
+│     │  ├─ get-all.controller.ts
+│     │  ├─ get-by-id.controller.ts
+│     │  ├─ index.ts
+│     │  └─ update.controller.ts
+│     ├─ dtos/
+│     │  └─ user-request.ts
+│     ├─ routes/
+│     │  ├─ auth.route.ts
+│     │  ├─ create.route.ts
+│     │  ├─ delete.route.ts
+│     │  ├─ get-all.route.ts
+│     │  ├─ get-by-id.route.ts
+│     │  ├─ index.ts
+│     │  └─ update.route.ts
+│     ├─ schema/
+│     │  └─ user.ts
+│     ├─ services/
+│     │  ├─ auth.service.ts
+│     │  ├─ create.service.ts
+│     │  ├─ delete.service.ts
+│     │  ├─ get-all.service.ts
+│     │  ├─ get-by-id.service.ts
+│     │  ├─ index.ts
+│     │  └─ update.service.ts
+│     └─ index.ts
 ├─ prisma/
-│  └─ index.ts
-├─ routes/
-│  ├─ auth/
-│  │  ├─ auth-user.route.ts
-│  │  └─ create-user.route.ts
-│  ├─ category/
-│  │  ├─ create.route.ts
-│  │  └─ get-all.route.ts
-│  ├─ user/
-│  │  ├─ delete.route.ts
-│  │  ├─ get-all.route.ts
-│  │  ├─ get-by-id.route.ts
-│  │  └─ update.route.ts
-│  └─ index.ts
-├─ services/
-│  ├─ auth/
-│  │  ├─ auth-user.service.ts
-│  │  └─ create-user.service.ts
-│  ├─ category/
-│  │  ├─ create.service.ts
-│  │  └─ get-all.service.ts
-│  ├─ user/
-│  │  ├─ delete.service.ts
-│  │  ├─ get-all.service.ts
-│  │  ├─ get-by-id.service.ts
-│  │  └─ update.service.ts
 │  └─ index.ts
 ├─ shared/
 │  ├─ errors/
 │  │  └─ app-error.ts
-│  ├─ lib/
-│  │  └─ types/
-│  │     ├─ category-request.ts
-│  │     └─ user-reques.ts
-│  ├─ middlewares/
-│  │  ├─ auth-handler.ts
-│  │  └─ error-handler.ts
-│  └─ schema/
-│     ├─ category.ts
-│     └─ user.ts
+│  └─ middlewares/
+│     ├─ auth-handler.ts
+│     └─ error-handler.ts
 ├─ tests/
 │  ├─ auth/
 │  │  ├─ auth-user.test.ts
@@ -168,6 +186,7 @@ src/
 ├─ validators/
 │  └─ env.schema.ts
 └─ server.ts
+
 
 
 ```
