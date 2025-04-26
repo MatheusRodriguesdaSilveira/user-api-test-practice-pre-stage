@@ -6,28 +6,45 @@ import {
   getUsersRoute,
   updateUserRoute,
 } from "./modules/users/routes";
-
 import { createCategoryRoute, getCategoriesRoute } from "./modules/category";
+import { createServiceRoute, getServicesRoute } from "./modules/service";
 
 import dotenv from "dotenv";
 import { env } from "./validators/env.schema";
 
+import { fastify } from "fastify";
 import fastifyCors from "@fastify/cors";
 import { fastifySwagger } from "@fastify/swagger";
 import { fastifySwaggerUi } from "@fastify/swagger-ui";
-import { fastify } from "fastify";
+import fastifyStatic from "@fastify/static";
+import multipart from "@fastify/multipart";
+
+import { resolve } from "path";
 
 import {
   jsonSchemaTransform,
   serializerCompiler,
   validatorCompiler,
 } from "fastify-type-provider-zod";
-import { createServiceRoute } from "./modules/service";
 
 dotenv.config();
 
 const app = fastify();
-app.register(fastifyCors);
+
+app.register(fastifyCors, {
+  origin: "*",
+});
+
+app.register(fastifyStatic, {
+  root: resolve(__dirname, "..", "..", "uploads"),
+  prefix: "/uploads/",
+});
+
+app.register(multipart, {
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5MB
+  },
+});
 
 app.register(fastifySwagger, {
   openapi: {
@@ -65,6 +82,7 @@ app.register(getCategoriesRoute);
 
 // Services
 app.register(createServiceRoute);
+app.register(getServicesRoute);
 
 // Server
 const port = env.PORT || 3333;
