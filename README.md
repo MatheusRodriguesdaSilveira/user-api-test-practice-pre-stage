@@ -118,16 +118,19 @@ src/
 │  ├─ service/
 │  │  ├─ controllers/
 │  │  │  ├─ create.controller.ts
+│  │  │  ├─ get-all.controller.ts
 │  │  │  └─ index.ts
 │  │  ├─ dtos/
 │  │  │  └─ service-request.ts
 │  │  ├─ routes/
 │  │  │  ├─ create.route.ts
+│  │  │  ├─ get-all.route.ts
 │  │  │  └─ index.ts
 │  │  ├─ schema/
 │  │  │  └─ service.ts
 │  │  ├─ services/
 │  │  │  ├─ create.service.ts
+│  │  │  ├─ get-all.service.ts
 │  │  │  └─ index.ts
 │  │  └─ index.ts
 │  └─ users/
@@ -167,7 +170,8 @@ src/
 │  │  └─ app-error.ts
 │  └─ middlewares/
 │     ├─ auth-handler.ts
-│     └─ error-handler.ts
+│     ├─ error-handler.ts
+│     └─ upload.ts
 ├─ tests/
 │  ├─ auth/
 │  │  ├─ auth-user.test.ts
@@ -183,9 +187,112 @@ src/
 │     ├─ get-user-by-id.test.ts
 │     ├─ get-users.test.ts
 │     └─ update-user.test.ts
+├─ uploads/
 ├─ validators/
 │  └─ env.schema.ts
 └─ server.ts
+src/
+├─ @types/
+│  └─ fastify/
+│     └─ index.d.ts
+├─ modules/
+│  ├─ category/
+│  │  ├─ controllers/
+│  │  │  ├─ create.controller.ts
+│  │  │  ├─ get-all.controller.ts
+│  │  │  └─ index.ts
+│  │  ├─ dtos/
+│  │  │  └─ category-request.ts
+│  │  ├─ routes/
+│  │  │  ├─ create.route.ts
+│  │  │  ├─ get-all.route.ts
+│  │  │  └─ index.ts
+│  │  ├─ schema/
+│  │  │  └─ category.ts
+│  │  ├─ services/
+│  │  │  ├─ create.service.ts
+│  │  │  ├─ get-all.service.ts
+│  │  │  └─ index.ts
+│  │  └─ index.ts
+│  ├─ service/
+│  │  ├─ controllers/
+│  │  │  ├─ create.controller.ts
+│  │  │  ├─ get-all.controller.ts
+│  │  │  └─ index.ts
+│  │  ├─ dtos/
+│  │  │  └─ service-request.ts
+│  │  ├─ routes/
+│  │  │  ├─ create.route.ts
+│  │  │  ├─ get-all.route.ts
+│  │  │  └─ index.ts
+│  │  ├─ schema/
+│  │  │  └─ service.ts
+│  │  ├─ services/
+│  │  │  ├─ create.service.ts
+│  │  │  ├─ get-all.service.ts
+│  │  │  └─ index.ts
+│  │  └─ index.ts
+│  └─ users/
+│     ├─ controllers/
+│     │  ├─ auth.controller.ts
+│     │  ├─ create.controller.ts
+│     │  ├─ delete.controller.ts
+│     │  ├─ get-all.controller.ts
+│     │  ├─ get-by-id.controller.ts
+│     │  ├─ index.ts
+│     │  └─ update.controller.ts
+│     ├─ dtos/
+│     │  └─ user-request.ts
+│     ├─ routes/
+│     │  ├─ auth.route.ts
+│     │  ├─ create.route.ts
+│     │  ├─ delete.route.ts
+│     │  ├─ get-all.route.ts
+│     │  ├─ get-by-id.route.ts
+│     │  ├─ index.ts
+│     │  └─ update.route.ts
+│     ├─ schema/
+│     │  └─ user.ts
+│     ├─ services/
+│     │  ├─ auth.service.ts
+│     │  ├─ create.service.ts
+│     │  ├─ delete.service.ts
+│     │  ├─ get-all.service.ts
+│     │  ├─ get-by-id.service.ts
+│     │  ├─ index.ts
+│     │  └─ update.service.ts
+│     └─ index.ts
+├─ prisma/
+│  └─ index.ts
+├─ shared/
+│  ├─ errors/
+│  │  └─ app-error.ts
+│  └─ middlewares/
+│     ├─ auth-handler.ts
+│     ├─ error-handler.ts
+│     └─ upload.ts
+├─ tests/
+│  ├─ auth/
+│  │  ├─ auth-user.test.ts
+│  │  └─ create-user.test.ts
+│  ├─ category/
+│  │  ├─ create-category.test.ts
+│  │  └─ get-categories.test.ts
+│  ├─ factories/
+│  │  ├─ categories-factory.ts
+│  │  └─ user-factory.ts
+│  └─ user/
+│     ├─ delete-user.test.ts
+│     ├─ get-user-by-id.test.ts
+│     ├─ get-users.test.ts
+│     └─ update-user.test.ts
+├─ uploads/
+│  ├─ 877fb0ff953de37a464f883d047d301b-BannerOficialGoogleForms-Opcao12.jpg
+│  └─ d4f7ae143c760acf406c6ae893e0067d-BannerOficialGoogleForms-Opcao12.jpg
+├─ validators/
+│  └─ env.schema.ts
+└─ server.ts
+
 
 
 
