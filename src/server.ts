@@ -31,18 +31,26 @@ dotenv.config();
 
 const app = fastify();
 
+app.register(multipart);
+
 app.register(fastifyCors, {
   origin: "*",
 });
 
 app.register(fastifyStatic, {
-  root: resolve(__dirname, "..", "..", "uploads"),
+  root: resolve(__dirname, "..", "uploads"),
   prefix: "/uploads/",
-});
-
-app.register(multipart, {
-  limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB
+  decorateReply: false,
+  setHeaders: (res, path) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, DELETE, OPTIONS"
+    );
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization"
+    );
   },
 });
 
