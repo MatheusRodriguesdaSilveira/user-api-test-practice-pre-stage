@@ -4,6 +4,7 @@ import { CreateServiceService } from "../services";
 
 class CreateServiceController {
   async handle(req: FastifyRequest, reply: FastifyReply) {
+    const createService = new CreateServiceService();
     const bodySchema = createServiceSchema;
 
     const { name, description, category_id } = bodySchema.parse(req.body);
@@ -13,21 +14,12 @@ class CreateServiceController {
       return reply.status(400).send({ message: "Arquivo é obrigatório" });
     }
 
-    const allowedMimeTypes = ["image/jpeg", "image/png", "image/gif"];
-    if (!allowedMimeTypes.includes(file.mimetype)) {
-      return reply
-        .status(400)
-        .send({ message: "Tipo de arquivo não permitido" });
-    }
-
-    const image = `http://localhost:3333/uploads/${file.filename}`;
-
-    const createService = new CreateServiceService();
+    const imageUrl = `http://localhost:3333/uploads/${file.filename}`;
 
     const service = await createService.execute({
       name,
       description,
-      image,
+      image: imageUrl,
       category_id,
     });
 
