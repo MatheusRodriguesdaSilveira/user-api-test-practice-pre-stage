@@ -38,20 +38,8 @@ app.register(fastifyCors, {
 });
 
 app.register(fastifyStatic, {
-  root: resolve(__dirname, "..", "uploads"),
+  root: resolve(process.cwd(), "uploads"),
   prefix: "/uploads/",
-  decorateReply: false,
-  setHeaders: (res, path) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader(
-      "Access-Control-Allow-Methods",
-      "GET, POST, PUT, DELETE, OPTIONS"
-    );
-    res.setHeader(
-      "Access-Control-Allow-Headers",
-      "Content-Type, Authorization"
-    );
-  },
 });
 
 app.register(fastifySwagger, {
