@@ -7,3 +7,7 @@ export const createServiceSchema = z.object({
 });
 
 export type CreateServiceDTO = z.infer<typeof createServiceSchema>;
+
+export const ParamsSchema = z.object({
+  service_id: z.string(),
+});
