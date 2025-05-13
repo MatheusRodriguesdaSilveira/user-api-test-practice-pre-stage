@@ -7,7 +7,11 @@ import {
   updateUserRoute,
 } from "./modules/users/routes";
 import { createCategoryRoute, getCategoriesRoute } from "./modules/category";
-import { createServiceRoute, getServicesRoute } from "./modules/service";
+import {
+  createServiceRoute,
+  deleteServiceRoute,
+  getServicesRoute,
+} from "./modules/service";
 
 import dotenv from "dotenv";
 import { env } from "./validators/env.schema";
@@ -31,7 +35,11 @@ dotenv.config();
 
 const app = fastify();
 
-app.register(multipart);
+app.register(multipart, {
+  limits: {
+    fileSize: 10 * 1024 * 1024, // 10 MB
+  },
+});
 
 app.register(fastifyCors, {
   origin: "*",
@@ -79,6 +87,7 @@ app.register(getCategoriesRoute);
 // Services
 app.register(createServiceRoute);
 app.register(getServicesRoute);
+app.register(deleteServiceRoute);
 
 // Server
 const port = env.PORT || 3333;
