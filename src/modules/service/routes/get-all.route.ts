@@ -18,6 +18,8 @@ export const getServicesRoute: FastifyPluginAsyncZod = async (app) => {
             description: z.string(),
             image: z.string(),
             category_id: z.string(),
+            created_at: z.string(),
+            updated_at: z.string(),
           }),
           400: z.object({
             message: z.string(),
