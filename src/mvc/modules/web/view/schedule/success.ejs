@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamento Confirmado!</title>
+    <link href="/public/css/output.css" rel="stylesheet"> 
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen font-sans">
+    
+    <div class="max-w-md w-full mx-auto p-8 bg-white border border-green-200 rounded-xl shadow-2xl text-center">
+        
+        <div class="text-green-600 mb-6">
+            <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </div>
+
+        <h2 class="text-3xl font-extrabold text-green-700 mb-3">Agendamento Confirmado!</h2>
+        
+        <p class="text-gray-700 mb-6">
+            Seu agendamento para o **<%= serviceName || 'Serviço' %>** foi registrado com sucesso.
+            Você receberá um email de confirmação com todos os detalhes.
+        </p>
+
+        <div class="space-y-4">
+            <a href="/web/service" class="block w-full py-3 px-4 rounded-lg shadow-md text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 transition duration-150">
+                Ver Mais Serviços
+            </a>
+            <a href="/" class="block w-full py-2 px-4 rounded-lg text-base font-medium text-indigo-600 border border-indigo-600 hover:bg-indigo-50 transition duration-150">
+                Voltar para a Home
+            </a>
+        </div>
+    </div>
+</body>
+</html>

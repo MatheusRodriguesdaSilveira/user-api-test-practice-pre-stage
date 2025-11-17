@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title || 'Criar Novo Agendamento' %></title>
+  <link href="/public/css/output.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+  <!-- HEADER -->
+  <header class="bg-indigo-600 shadow-lg p-4 text-white">
+    <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center">
+      <h1 class="text-xl sm:text-2xl font-bold mb-2 sm:mb-0">Painel de Controle</h1>
+      <nav class="flex flex-wrap justify-center sm:justify-end gap-2 sm:gap-4 text-sm font-medium">
+        <a href="/admin/service/list" class="hover:text-indigo-200 transition duration-200">Gerenciar Serviços</a>
+        <a href="/admin/users" class="hover:text-indigo-200 transition duration-200">Gerenciar Usuários</a>
+        <a href="/admin/appointments" class="hover:text-indigo-200 transition duration-200">Ver Agendamentos</a>
+        <a href="/admin/dashboard" class="hover:text-indigo-200 transition duration-200">Home</a>
+        <a href="/web/logout" class="bg-indigo-700 hover:bg-indigo-800 px-3 py-1 rounded transition duration-200">Sair</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="flex-1 flex justify-center items-center px-4 py-10 sm:py-16">
+    <div class="w-full max-w-md sm:max-w-xl bg-white p-6 sm:p-8 rounded-xl shadow-2xl border border-indigo-100">
+      <h2 class="text-2xl sm:text-3xl font-bold text-indigo-700 mb-6 text-center">Criar Novo Agendamento</h2>
+
+      <% if (error) { %>
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <strong class="font-bold">Erro:</strong>
+          <span class="block sm:inline"><%= error %></span>
+        </div>
+      <% } %>
+
+      <form method="POST" action="/admin/appointments/create" class="space-y-5 sm:space-y-6">
+        
+        <div>
+          <label for="clientName" class="block text-sm font-medium text-gray-700">Nome do Cliente</label>
+          <input 
+            type="text"
+            id="clientName"
+            name="clientName"
+            required
+            value="<%= formData ? formData.clientName : '' %>"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+            placeholder="Ex: Maria da Silva"
+          >
+        </div>
+
+        <div>
+          <label for="clientPhone" class="block text-sm font-medium text-gray-700">Telefone do Cliente</label>
+          <input 
+            type="tel"
+            id="clientPhone"
+            name="clientPhone"
+            value="<%= formData ? formData.clientPhone : '' %>"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+            placeholder="Ex: (99) 99999-9999 (Opcional)"
+          >
+        </div>
+
+        <div>
+          <label for="serviceId" class="block text-sm font-medium text-gray-700">Serviço</label>
+          <select 
+            id="serviceId"
+            name="serviceId"
+            required
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+          >
+            <option value="" disabled selected>Selecione um serviço</option>
+            <% if (services && services.length > 0) { %>
+              <% services.forEach(service => { %>
+                <option 
+                  value="<%= service.id %>" 
+                  <%= formData && formData.serviceId === service.id ? 'selected' : '' %>
+                >
+                   <%= service.name %> (<%= Number(service.price).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) %>)
+                </option>
+              <% }); %>
+            <% } %>
+          </select>
+        </div>
+
+        <div>
+          <label for="appointmentDateTime" class="block text-sm font-medium text-gray-700">Data e Hora</label>
+          <input 
+            type="datetime-local"
+            id="appointmentDateTime"
+            name="appointmentDateTime"
+            required
+            value="<%= formData ? formData.appointmentDateTime : '' %>"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+          >
+        </div>
+
+        <div class="pt-4">
+          <button 
+            type="submit" 
+            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-base sm:text-lg font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150"
+          >
+            Salvar Agendamento
+          </button>
+        </div>
+
+        <div class="text-center pt-2">
+          <a href="/admin/appointments" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
+            &larr; Voltar para a Lista
+          </a>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="text-center mt-10 py-6 text-gray-500 text-sm border-t border-gray-200">
+    <p>&copy; 2024 Painel Administrativo</p>
+  </footer>
+
+</body>
+</html>

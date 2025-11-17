@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title || 'Editar Serviço' %></title>
+  <link href="/public/css/output.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans antialiased min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-indigo-600 shadow-lg p-4 text-white">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">Painel de Controle</h1>
+      <nav class="space-x-4 text-sm font-medium">
+        <a href="/admin/service/list" class="hover:text-indigo-200 transition duration-200">Gerenciar Serviços</a>
+        <a href="/admin/dashboard" class="hover:text-indigo-200 transition duration-200">Home</a>
+        <a href="/web/logout" class="bg-indigo-700 hover:bg-indigo-800 px-3 py-1 rounded transition duration-200">Sair</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="max-w-4xl mx-auto px-4 py-8">
+    <div class="bg-white p-6 md:p-8 rounded-xl shadow-2xl">
+
+      <h2 class="text-3xl font-bold text-gray-800 mb-6 border-b pb-2">
+        <%= title %>
+      </h2>
+
+      <% if (error) { %>
+        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded" role="alert">
+          <p class="font-bold">Erro!</p>
+          <p><%= error %></p>
+        </div>
+      <% } %>
+
+      <form 
+        action="/admin/service/edit/<%= service.id %>" 
+        method="POST" 
+        enctype="multipart/form-data" 
+        class="space-y-6"
+      >
+        <!-- Nome -->
+        <div>
+          <label for="name" class="block text-sm font-medium text-gray-700">Nome do Serviço <span class="text-red-500">*</span></label>
+          <input 
+            type="text" 
+            id="name" 
+            name="name" 
+            required 
+            value="<%= service.name %>"
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          />
+        </div>
+
+        <!-- Categoria -->
+        <div>
+          <label for="category_id" class="block text-sm font-medium text-gray-700">Categoria <span class="text-red-500">*</span></label>
+          <select 
+            id="category_id" 
+            name="category_id" 
+            required 
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white"
+          >
+            <% categories.forEach(category => { %>
+              <option value="<%= category.id %>" <%= category.id === service.category_id ? 'selected' : '' %>>
+                <%= category.name %>
+              </option>
+            <% }) %>
+          </select>
+        </div>
+
+        <!-- Descrição -->
+        <div>
+          <label for="description" class="block text-sm font-medium text-gray-700">Descrição <span class="text-red-500">*</span></label>
+          <textarea 
+            id="description" 
+            name="description" 
+            rows="3" 
+            required 
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          ><%= service.description %></textarea>
+        </div>
+
+        <!-- Preço -->
+        <div>
+          <label for="price" class="block text-sm font-medium text-gray-700">Preço <span class="text-red-500">*</span></label>
+          <input 
+            type="number" 
+            id="price" 
+            name="price" 
+            required 
+            value="<%= service.price %>"
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          >
+        </div>
+
+        <!-- Imagem -->
+        <div>
+          <label for="image" class="block text-sm font-medium text-gray-700">
+            Imagem do Serviço 
+            <span class="text-gray-400 text-xs">(Deixe vazio para manter a atual)</span>
+          </label>
+
+          <% if (service.image) { %>
+            <div class="mt-2 mb-3">
+              <p class="text-xs text-gray-500 mb-1">Imagem Atual:</p>
+              <img src="<%= service.image %>" alt="Imagem Atual" class="w-24 h-24 object-cover rounded-md border border-gray-300 shadow-sm">
+            </div>
+            <input type="hidden" name="old_image_url" value="<%= service.image %>">
+          <% } %>
+
+          <input 
+            type="file" 
+            id="image" 
+            name="image" 
+            accept="image/*"
+            class="mt-2 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none p-3"
+          >
+        </div>
+
+      
+
+        <!-- Botões -->
+        <div class="flex justify-end space-x-4 pt-4">
+          <a href="/admin/service/list" class="flex items-center bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-gray-400 transition duration-150">
+            Cancelar
+          </a>
+          <button 
+            type="submit" 
+            class="flex items-center bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg shadow-lg hover:bg-indigo-700 transition duration-150"
+          >
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            Salvar Alterações
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center mt-12 py-6 text-gray-500 text-sm border-t border-gray-200">
+    <p>&copy; 2024 Painel Administrativo</p>
+  </footer>
+</body>
+</html>

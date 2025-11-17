@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title || 'Gerenciar Agendamentos' %></title>
+  <link href="/public/css/output.css" rel="stylesheet"> 
+</head>
+
+<body class="bg-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+  <!-- HEADER -->
+  <header class="bg-indigo-600 shadow-lg p-4 text-white">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">Painel de Controle</h1>
+      <nav class="space-x-6 text-sm font-medium">
+        <a href="/admin/service/list" class="hover:text-indigo-200 transition">Gerenciar Serviços</a>
+        <a href="/admin/appointments" class="hover:text-indigo-200 transition">Ver Agendamentos</a>
+        <a href="/admin/dashboard" class="hover:text-indigo-200 transition">Home</a>
+        <a href="/web/logout" class="bg-indigo-700 hover:bg-indigo-800 px-3 py-1 rounded transition">Sair</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="grow max-w-6xl mx-auto px-6 py-10">
+   <div class="flex flex-wrap justify-between items-center gap-4 mb-10">
+  <h2 class="text-2xl md:text-3xl font-bold text-gray-800">
+    <%= title || 'Gerenciar Agendamentos' %>
+  </h2>
+
+  <a 
+    href="/admin/appointments/create"
+    class="bg-indigo-600 text-white font-semibold px-8 py-3 rounded-xl shadow-md 
+           hover:bg-indigo-700 transition-all duration-300 transform hover:scale-[1.02]
+           text-sm md:text-base"
+  >
+    + Novo Agendamento
+  </a>
+</div>
+
+
+    <% if (appointments && appointments.length > 0) { %>
+      <div class="bg-white shadow-xl rounded-xl overflow-hidden border border-gray-200">
+        <table class="min-w-full bg-white rounded-xl shadow-md overflow-hidden">
+          <thead class="bg-indigo-50">
+            <tr class="bg-indigo-50 text-zinc-700 text-left text-sm">
+              <th class="px-6 py-3 font-medium text-gray-600 uppercase tracking-wider">Cliente</th>
+              <th class="px-6 py-3 font-medium text-gray-600 uppercase tracking-wider">Telefone</th>
+              <th class="px-6 py-3 font-medium text-gray-600 uppercase tracking-wider">Data/Hora</th>
+              <th class="px-6 py-3 font-medium text-gray-600 uppercase tracking-wider">Serviço</th>
+              <th class="px-6 py-3 font-medium text-gray-600 uppercase tracking-wider">Preço</th> 
+              <th class="px-6 py-3 font-medium text-gray-600 uppercase tracking-wider">Status</th>
+              <th class="px-6 py-3 text-center font-medium text-gray-600 uppercase tracking-wider">Ações</th>
+            </tr>
+          </thead>
+
+          <tbody class="divide-y divide-gray-200">
+            <% appointments.forEach(appointment => { %>
+              <tr class="hover:bg-gray-50 transition">
+                <td class="px-6 py-4 font-medium text-gray-900"><%= appointment.client_name %></td>
+                <td class="px-6 py-4 text-gray-500"><%= appointment.client_phone || 'N/A' %></td>
+                <td class="px-6 py-4 text-gray-500">
+                  <% const date = new Date(appointment.appointment_date); %>
+                  <%= date.toLocaleDateString('pt-BR') %> às
+                  <%= date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) %>
+                </td>
+                <td class="px-6 py-4 text-gray-500"><%= appointment.name %></td>
+
+               <td class="px-6 py-4 text-gray-500">
+                  <% if (appointment.service && appointment.service.price) { %>
+                    <%= Number(appointment.service.price).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) %>
+                  <% } else { %>
+                    <span class="text-gray-400">N/A</span>
+                  <% } %>
+                </td>
+                
+                <td class="px-6 py-4">
+                  <span class="px-2 inline-flex text-sm leading-5 font-semibold rounded-full 
+                    <%= appointment.status ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' %>">
+                    <%= appointment.status ? 'Confirmado' : 'Pendente' %>
+                  </span>
+                </td>
+
+                <td class="px-6 py-4 flex gap-6">
+                  <a href="/admin/appointments/edit/<%= appointment.id %>"
+                    class="text-blue-600 hover:text-blue-900 font-semibold">Editar</a>
+                  <form method="POST" action="/admin/appointments/<%= appointment.id %>/delete" class="inline-block">
+                    <button type="submit"
+                            class="text-red-600 hover:text-red-900 font-semibold"
+                            onclick="return confirm('Excluir este agendamento?')">
+                      Excluir
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+
+    <% } else { %>
+      <div class="bg-indigo-50 p-10 rounded-xl shadow-md border border-indigo-200 text-center">
+        <p class="text-xl font-semibold text-indigo-800 mb-2">Nenhum agendamento encontrado.</p>
+        <p class="text-gray-600">Clique em "Novo Agendamento" para começar a gerenciar.</p>
+      </div>
+    <% } %>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="text-center py-6 text-gray-500 text-sm border-t border-gray-200">
+    <p>&copy; 2024 Painel Administrativo</p>
+  </footer>
+
+</body>
+</html>

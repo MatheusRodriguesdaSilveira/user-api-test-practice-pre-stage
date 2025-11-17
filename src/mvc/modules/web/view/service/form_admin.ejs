@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title || 'Criar Novo Serviço' %></title>
+  <link href="/public/css/output.css" rel="stylesheet"> 
+</head>
+<body class="bg-gray-100 font-sans antialiased min-h-screen py-10">
+  
+  <main class="max-w-3xl mx-auto px-4 bg-white border border-gray-200 rounded-xl shadow-2xl p-8">
+      
+    <h2 class="text-3xl font-extrabold text-center text-indigo-700 mb-8">
+      <%= title || 'Criar Novo Serviço' %>
+    </h2>
+
+    <% if (error) { %>
+      <div class="bg-red-100 text-red-700 p-3 rounded-lg border border-red-400 mb-4 font-medium text-sm">
+        <strong>Erro:</strong> <%= error %>
+      </div>
+    <% } %>
+
+    <form method="POST" action="/admin/service/create" enctype="multipart/form-data" class="space-y-6">
+
+      <!-- Nome -->
+      <div>
+        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nome do Serviço:</label>
+        <input 
+          type="text" 
+          id="name" 
+          name="name" 
+          required
+          value="<%= (typeof formData !== 'undefined' ? formData.name : '') || '' %>"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"
+          placeholder="Ex: Corte Clássico"
+        >
+      </div>
+
+      <!-- Categoria -->
+      <div>
+        <label for="category_id" class="block text-sm font-medium text-gray-700 mb-1">Categoria:</label>
+        <select 
+          id="category_id" 
+          name="category_id" 
+          required
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-white"
+        >
+          <option value="">Selecione uma categoria</option>
+          <% if (categories && categories.length > 0) { %>
+            <% categories.forEach(category => { %>
+              <option 
+                value="<%= category.id %>" 
+                <%= formData?.category_id === category.id ? 'selected' : '' %>>
+                <%= category.name %>
+              </option>
+            <% }); %>
+          <% } %>
+        </select>
+      </div>
+
+      <!-- Descrição -->
+      <div>
+        <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Descrição:</label>
+        <textarea 
+          id="description" 
+          name="description" 
+          rows="3"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"
+          placeholder="Detalhes sobre o serviço."
+        ><%= formData?.description || '' %></textarea>
+      </div>
+
+      <!-- Imagem -->
+      <div>
+        <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Imagem do Serviço:</label>
+        <input 
+          type="file" 
+          id="image" 
+          name="image"
+          accept="image/*"
+          class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
+        >
+      </div>
+
+      <!-- Preço -->
+      <div>
+        <label for="price" class="block text-sm font-medium text-gray-700 mb-1">Preço (R$):</label>
+        <input 
+          type="number" 
+          id="price" 
+          name="price"
+          min="0"
+          step="0.01"
+          required
+          value="<%= (typeof formData !== 'undefined' ? formData.price : '') || '' %>"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"
+          placeholder="Ex: 49.90"
+        >
+      </div>
+      
+      <!-- Botão -->
+      <button 
+        type="submit" 
+        class="w-full py-3 px-4 rounded-lg shadow-md text-base font-semibold text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150"
+      >
+        Salvar Serviço
+      </button>
+    </form>
+
+    <p class="text-center mt-6 text-sm text-gray-500">
+      <a href="/admin/dashboard" class="font-medium text-indigo-600 hover:text-indigo-500 transition duration-150">&larr; Voltar para o Dashboard</a>
+    </p>
+  </main>
+</body>
+</html>

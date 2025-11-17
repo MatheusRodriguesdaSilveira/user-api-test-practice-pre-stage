@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Categoria</title>
+    <link href="/public/css/output.css" rel="stylesheet"> 
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen font-sans">
+    
+    <div class="max-w-md w-full mx-auto p-8 bg-white border border-gray-200 rounded-xl shadow-2xl">
+        
+        <h2 class="text-3xl font-extrabold text-center text-indigo-700 mb-8">Criar Nova Categoria</h2>
+
+        <% if (error) { %>
+            <div class="bg-red-100 text-red-700 p-3 rounded-lg border border-red-400 mb-4 font-medium text-sm">
+                ERRO: <%= error %>
+            </div>
+        <% } %>
+        <% if (message) { %>
+            <div class="bg-green-100 text-green-700 p-3 rounded-lg border border-green-400 mb-4 font-medium text-sm">
+                <%= message %>
+            </div>
+        <% } %>
+
+        <form method="POST" action="/admin/category/create" class="space-y-6">
+            
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nome da Categoria:</label>
+                <input type="text" id="name" name="name" required
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"
+                       placeholder="Ex: Cabelo, Unha, Massagem">
+            </div>
+            
+            <button type="submit" class="w-full py-2.5 px-4 rounded-lg shadow-md text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150">
+                Salvar Categoria
+            </button>
+        </form>
+
+        <p class="text-center mt-6 text-sm text-gray-500">
+            <a href="/admin/dashboard" class="font-medium text-indigo-600 hover:text-indigo-500 transition duration-150">&larr; Voltar para o Dashboard</a>
+        </p>
+    </div>
+</body>
+</html>

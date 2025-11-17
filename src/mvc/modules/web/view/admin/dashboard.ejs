@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel de Controle</title>
+  <link href="/public/css/output.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+  <!-- HEADER -->
+  <header class="bg-indigo-600 shadow-lg p-4 text-white">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">Painel de Controle</h1>
+      <nav class="space-x-4 text-sm font-medium">
+        <a href="/admin/category/list" class="hover:text-indigo-200 transition duration-200">Ver Categorias</a>
+        <a href="/admin/category/create" class="hover:text-indigo-200 transition duration-200">Criar Categoria</a>
+        <a href="/admin/service/list" class="hover:text-indigo-200 transition duration-200">Gerenciar Serviços</a>
+        <a href="/admin/service/create" class="hover:text-indigo-200 transition duration-200">Criar Serviço</a>
+        <a href="/admin/appointments" class="hover:text-indigo-200 transition duration-200">Ver Agendamentos</a>
+        <a href="/web/logout" class="bg-indigo-700 hover:bg-indigo-800 px-3 py-1 rounded transition duration-200">Sair</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="flex-1 flex items-center justify-center px-6 py-16">
+    <div class="max-w-7xl w-full">
+      <h1 class="text-4xl font-extrabold text-gray-900 mb-3">
+        Bem-vindo ao Painel Administrativo
+      </h1>
+      <p class="text-lg text-gray-600 mb-12">
+        Você está logado com sucesso! Este é o painel de controle.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div class="bg-yellow-50 p-8 rounded-2xl shadow-md border-l-4 border-yellow-400 hover:shadow-lg transition">
+          <h3 class="text-lg font-semibold text-yellow-700">Agendamentos Pendentes</h3>
+          <p class="text-4xl font-bold text-yellow-800 mt-3"><%= pendingCount %></p>
+        </div>
+
+        <div class="bg-green-50 p-8 rounded-2xl shadow-md border-l-4 border-green-400 hover:shadow-lg transition">
+          <h3 class="text-lg font-semibold text-green-700">Agendamentos Concluídos</h3>
+          <p class="text-4xl font-bold text-green-800 mt-3"><%= completedCount %></p>
+        </div>
+
+        <div class="bg-indigo-50 p-8 rounded-2xl shadow-md border-l-4 border-indigo-400 hover:shadow-lg transition">
+          <h3 class="text-lg font-semibold text-indigo-700">Receita do Mês</h3>
+          <p class="text-4xl font-bold text-indigo-800 mt-3">
+            R$ <%= totalRevenue.toLocaleString('pt-BR', { minimumFractionDigits: 2 }) %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>

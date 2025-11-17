@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title || 'Gerenciar Serviços' %></title>
+    <link href="/public/css/output.css" rel="stylesheet"> 
+</head>
+<body class="bg-gray-100 font-sans antialiased min-h-screen">
+    
+    <header class="bg-indigo-600 shadow-lg p-4 text-white">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">Painel de Controle</h1>
+            <nav class="space-x-4 text-sm font-medium">
+                <a href="/admin/category/list" class="hover:text-indigo-200 transition duration-200">Ver Categorias</a>
+                <a href="/admin/appointments" class="hover:text-indigo-200 transition duration-200">Ver Agendamentos</a>
+                <a href="/admin/dashboard" class="hover:text-indigo-200 transition duration-200">Home</a>
+                <a href="/web/logout" class="bg-indigo-700 hover:bg-indigo-800 px-3 py-1 rounded transition duration-200">Sair</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-3xl font-bold text-gray-800"><%= title || 'Serviços Cadastrados' %></h2>
+            <a href="/admin/service/create" class="flex items-center bg-green-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-green-700 transition duration-150">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                Novo Serviço
+            </a>
+        </div>
+        
+        <% if (services && services.length > 0) { %>
+            <div class="bg-white shadow-xl rounded-lg overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-indigo-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Nome</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider hidden md:table-cell">Descrição</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Categoria</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Preço (R$)</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider hidden lg:table-cell">Imagem</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <% services.forEach(service => { %>
+                            <tr class="hover:bg-gray-50 transition duration-150">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= service.name %></td>
+                            <td class="px-6 py-4 text-sm text-gray-500 hidden md:table-cell max-w-xs truncate"><%= service.description || 'Sem descrição' %></td>
+                            
+                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                <% if (service.category) { %>
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800">
+                                    <%= service.category.name %>
+                                </span>
+                                <% } else { %>
+                                N/A
+                                <% } %>
+                            </td>
+
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                R$ <%= service.price ? Number(service.price).toFixed(2).replace('.', ',') : '0,00' %>
+                            </td>
+
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <img class="w-16 h-16 object-cover rounded-lg" src="<%= service.image %>" alt="Imagem do serviço" />
+                            </td>
+
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium space-x-2">
+                                <a href="/admin/service/edit/<%= service.id %>" 
+                                    class="text-blue-600 hover:text-blue-900 font-medium">
+                                    Editar
+                                </a>
+                                <form method="POST" action="/admin/service/<%= service.id %>/delete" class="inline-block">
+                                    <button type="submit" class="text-red-600 hover:text-red-900 font-medium ml-2" onclick="return confirm('Excluir este serviço?')">
+                                        Excluir
+                                    </button>
+                                </form>
+                            </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+
+                </table>
+            </div>
+        <% } else { %>
+            <div class="bg-green-50 p-6 rounded-lg shadow-md border border-green-200 text-center">
+                <p class="text-xl font-semibold text-green-800 mb-2">Nenhum serviço cadastrado.</p>
+                <p class="text-gray-600">Clique em "Novo Serviço" para começar.</p>
+            </div>
+        <% } %>
+    </main>
+
+    <footer class="text-center mt-12 py-6 text-gray-500 text-sm border-t border-gray-200">
+        <p>&copy; 2024 Painel Administrativo</p>
+    </footer>
+</body>
+</html>
