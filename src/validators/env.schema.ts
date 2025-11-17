@@ -2,6 +2,8 @@ import { z } from "zod";
 import "dotenv/config";
 
 const envSchema = z.object({
+  NODE_ENV: z.string().default("development"),
+
   // Server
   PORT: z.coerce.number().default(3333),
 

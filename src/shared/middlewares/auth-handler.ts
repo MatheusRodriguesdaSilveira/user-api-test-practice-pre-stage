@@ -4,33 +4,39 @@ import { env } from "../../validators/env.schema";
 
 interface PayLoad {
   sub: string;
+  name: string;
 }
 
-export function isAuthenticated(
+export function authMiddleware(
   req: FastifyRequest,
   reply: FastifyReply,
   next: () => void
 ) {
-  const authToken = req.headers.authorization;
+  // 1. Tenta obter o token do COOKIE (Padrão para Web MVC)
+  // Assumimos que o token é salvo no cookie 'auth_token' pelo handleLogin.
+  const token = req.cookies.auth_token;
 
-  if (!authToken) {
-    return reply.status(401).send({
-      message: "Token is missing",
-    });
+  if (!token) {
+    // 2. Falha: Redireciona para o login se não houver token
+    return reply.redirect(
+      "/web/login?error=" + encodeURIComponent("Acesso negado. Faça login.")
+    );
   }
 
-  const [, token] = authToken.split(" ");
-
   try {
-    // Validando o Token
-    const { sub } = verify(token, env.JWT_SECRET) as PayLoad;
+    // 3. Validando o Token
+    const decoded = verify(token, env.JWT_SECRET) as PayLoad;
 
-    req.user_id = sub;
+    // Anexa o ID e Nome do usuário na requisição para uso no Controller
+    (req as any).user_id = decoded.sub;
+    (req as any).user = { id: decoded.sub, name: decoded.name };
 
-    return next();
+    return next(); // 4. Sucesso: Continua para o Controller showDashboard
   } catch (err) {
-    return reply.status(401).send({
-      message: "Invalid token",
-    });
+    // 5. Falha: Limpa o cookie e redireciona (token inválido/expirado)
+    reply.clearCookie("auth_token");
+    return reply.redirect(
+      "/web/login?error=" + encodeURIComponent("Sessão expirada ou inválida.")
+    );
   }
 }
